@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Release
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_REGISTRY_USER: derviloper
+          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+        run: npm run release
+
+      - name: Update Version in Cluster
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.WORKFLOW_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              inputs: {
+                "file-path": "kubernetes/eurojackpot-tracker/values.yaml",
+                path: "image.tag",
+                value: '"${{ steps.release.outputs.NEXT_RELEASE_VERSION }}"',
+              },
+              owner: "Derviloper",
+              ref: "main",
+              repo: "dotfiles",
+              workflow_id: "patch-value.yml",
+            });

@@ -1,0 +1,34 @@
+{
+  "name": "@derviloper/eurojackpot-tracker",
+  "author": "Daniel da Silva",
+  "type": "module",
+  "scripts": {
+    "dev": "tsdown -w",
+    "build": "tsdown",
+    "release": "semantic-release",
+    "start": "node dist/index.js",
+    "types": "tsc --build",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write ."
+  },
+  "dependencies": {
+    "cron": "^4.3.3",
+    "discord.js": "^14.22.1",
+    "dotenv": "^17.2.2",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@codedependant/semantic-release-docker": "^5.1.1",
+    "@derviloper/eslint-config": "^1.0.3",
+    "@semantic-release/exec": "^7.1.0",
+    "@types/node": "^24.3.1",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
+    "eslint": "^9.35.0",
+    "prettier": "^3.6.2",
+    "semantic-release": "^24.2.8",
+    "tsdown": "^0.15.1",
+    "typescript": "^5.9.2"
+  }
+}
